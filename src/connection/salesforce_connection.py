@@ -166,7 +166,22 @@ class SalesforceConnection:
             await self.client.aclose()
 
 
+#TODO: method need to implemented 
+# refresh_token(self)
+# make_request(self, endpoint, method, data)
+# create_bulk_job(self, job_spec)
+# upload_batch(self, job_id, batch_data)
+# close_job(self, job_id)
+# get_batch_result(self, job_id, batch_id)
+# query_job_status(self, job_id)
+# handle_api_limits(self, response)
 
 
-
-
+    async def make_request(self, endpoint, method, data):
+        try:
+            response = await self.client.request(method, endpoint, json=data)
+            response.raise_for_status()
+            return response.json()
+        except HTTPStatusError as e:
+            raise Exception(f"Failed to make request: {e}")
+    
